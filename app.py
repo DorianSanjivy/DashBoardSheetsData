@@ -48,12 +48,25 @@ def plot_data(df):
     ax2.set_title('Number of Active Users Over Time')
     active_users_chart_placeholder.pyplot(fig2)
 
+def preprocess_data(df):
+    # Convertir les colonnes en numérique
+    for column in ['plays', 'players', 'active_users']:
+        df[column] = pd.to_numeric(df[column], errors='coerce')
+    
+    # Convertir la colonne 'timestamp' en datetime
+    df['timestamp'] = pd.to_datetime(df['timestamp'], errors='coerce')
+
+    return df
+
 st.title('Google Sheets Data Visualization with Streamlit')
 
 # Read data from Google Sheet
 json_file = 'ageless-union-400617-cb593b8312e6.json' # Update this with the path to your downloaded .json file
 sheet_url = 'https://docs.google.com/spreadsheets/d/13L7R6ORr7507D1p67usZX2UGnQ0P82Ufa1xp82TmHW0/edit#gid=0' # Update this with the URL of your Google Sheet
 df = get_data_from_gsheet(json_file, sheet_url)
+
+# Prétraitement des données
+df = preprocess_data(df)
 
 if __name__ == "__main__":
     # Adaptez cette partie selon les données de votre Google Sheets

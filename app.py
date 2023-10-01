@@ -17,9 +17,15 @@ def get_data_from_gsheet(json_file, sheet_url):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
     creds = ServiceAccountCredentials.from_json_keyfile_name(json_file, scope)
     client = gspread.authorize(creds)
+    
     sheet = client.open_by_url(sheet_url).sheet1
-    data = sheet.get_all_records()
-    return pd.DataFrame(data)
+    data = sheet.get_all_values()  # Utilise get_all_values plutôt que get_all_records
+    df = pd.DataFrame(data[1:], columns=data[0])  # Convertir les données en DataFrame en utilisant la première ligne comme noms de colonnes
+
+    # Renommez les colonnes comme souhaité
+    df.columns = ['timestamp', 'players', 'plays', 'active_users']
+    
+    return df
 
 def plot_data(df):
     df['timestamp'] = pd.to_datetime(df['timestamp'])

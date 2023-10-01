@@ -69,11 +69,6 @@ df = get_data_from_gsheet(json_file, sheet_url)
 df = preprocess_data(df)
 
 if __name__ == "__main__":
-    # Adaptez cette partie selon les données de votre Google Sheets
-    players = len(df)
-    plays = df['plays'].sum()
-    active_users = df['active_users'].sum()
-
     title_placeholder.title("Webpage Data")
     players_placeholder.write(f"Players: {players}")
     plays_placeholder.write(f"Plays: {plays}")

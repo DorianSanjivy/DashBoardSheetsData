@@ -69,6 +69,10 @@ df = get_data_from_gsheet(json_file, sheet_url)
 df = preprocess_data(df)
 
 if __name__ == "__main__":
+    players = df['players'].iloc[-1]
+    plays = df['plays'].iloc[-1]
+    active_users = df['active_users'].iloc[-1]
+    
     title_placeholder.title("Webpage Data")
     players_placeholder.write(f"Players: {players}")
     plays_placeholder.write(f"Plays: {plays}")
